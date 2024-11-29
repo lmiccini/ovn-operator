@@ -292,6 +292,34 @@ func CreateOVSDaemonSet(
 			ReadinessProbe:           ovsVswitchdReadinessProbe,
 			TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 		},
+		{
+			Name: "ovn-bgp-agent",
+			//Command: []string{"/usr/local/bin/container-scripts/start-vswitchd.sh"},
+			Command: []string{"/usr/bin/python3 -m http.server"},
+			//Lifecycle: &corev1.Lifecycle{
+			//	PreStop: &corev1.LifecycleHandler{
+			//		Exec: &corev1.ExecAction{
+			//			Command: []string{"/usr/local/bin/container-scripts/stop-vswitchd.sh"},
+			//		},
+			//	},
+			//},
+			Image: "quay.io/lmiccini/bgptest:20241128",
+			SecurityContext: &corev1.SecurityContext{
+				Capabilities: &corev1.Capabilities{
+					Add:  []corev1.Capability{"NET_ADMIN", "SYS_ADMIN", "SYS_NICE"},
+					Drop: []corev1.Capability{},
+				},
+				RunAsUser:  &runAsUser,
+				Privileged: &privileged,
+			},
+			Env:          env.MergeEnvs([]corev1.EnvVar{}, envVars),
+			VolumeMounts: GetVswitchdVolumeMounts(),
+			// TODO: consider the fact that resources are now double booked
+			Resources:                instance.Spec.Resources,
+			LivenessProbe:            ovsVswitchdLivenessProbe,
+			ReadinessProbe:           ovsVswitchdReadinessProbe,
+			TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
+		},
 	}
 
 	daemonset := &appsv1.DaemonSet{
