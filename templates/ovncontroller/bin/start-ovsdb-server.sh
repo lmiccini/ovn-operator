@@ -24,6 +24,7 @@ cleanup_ovsdb_server_semaphore
 ovsdb-server ${DB_FILE} \
     --pidfile \
     --remote=punix:/var/run/openvswitch/db.sock \
+    --remote=ptcp:6640 \
     --private-key=db:Open_vSwitch,SSL,private_key \
     --certificate=db:Open_vSwitch,SSL,certificate \
     --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert
