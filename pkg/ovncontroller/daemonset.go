@@ -295,7 +295,7 @@ func CreateOVSDaemonSet(
 		{
 			Name: "ovn-bgp-agent",
 			//Command: []string{"/usr/local/bin/container-scripts/start-vswitchd.sh"},
-			Command: []string{"/usr/bin/python3 -m http.server"},
+			Command: []string{"/usr/bin/sleep", "infinity"},
 			//Lifecycle: &corev1.Lifecycle{
 			//	PreStop: &corev1.LifecycleHandler{
 			//		Exec: &corev1.ExecAction{
@@ -315,9 +315,9 @@ func CreateOVSDaemonSet(
 			Env:          env.MergeEnvs([]corev1.EnvVar{}, envVars),
 			VolumeMounts: GetVswitchdVolumeMounts(),
 			// TODO: consider the fact that resources are now double booked
-			Resources:                instance.Spec.Resources,
-			LivenessProbe:            ovsVswitchdLivenessProbe,
-			ReadinessProbe:           ovsVswitchdReadinessProbe,
+			Resources: instance.Spec.Resources,
+			//LivenessProbe:            ovsVswitchdLivenessProbe,
+			//ReadinessProbe:           ovsVswitchdReadinessProbe,
 			TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 		},
 	}
