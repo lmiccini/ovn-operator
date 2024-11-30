@@ -303,7 +303,7 @@ func CreateOVSDaemonSet(
 			//		},
 			//	},
 			//},
-			Image: "quay.io/lmiccini/bgptest:20241128",
+			Image: "quay.io/lmiccini/bgptest:20241130",
 			SecurityContext: &corev1.SecurityContext{
 				Capabilities: &corev1.Capabilities{
 					Add:  []corev1.Capability{"NET_ADMIN", "SYS_ADMIN", "SYS_NICE"},
