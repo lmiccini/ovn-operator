@@ -337,7 +337,7 @@ func (r *OVNControllerReconciler) reconcileNormal(ctx context.Context, instance 
 		{
 			APIGroups: []string{"frrk8s.metallb.io"},
 			Resources: []string{"frrconfigurations"},
-			Verbs:     []string{"create", "get", "list", "watch", "update", "patch", "delete"},
+			Verbs:     []string{"get", "list", "watch", "update", "patch"},
 		},
 	}
 	rbacResult, err := common_rbac.ReconcileRbac(ctx, helper, instance, rbacRules)
